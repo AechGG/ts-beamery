@@ -1,0 +1,21 @@
+{
+    "compilerOptions": {
+        "experimentalDecorators": true,
+        "emitDecoratorMetadata": true,
+        "types": ["jest", "node"],
+        "target": "ES5",
+        "lib": ["es6", "dom", "ES2017", "ES2015", "esnext"],
+        "outDir": "dist",
+        "baseUrl": ".",
+        "module": "commonjs",
+        "esModuleInterop": true,
+        "moduleResolution": "node",
+        "resolveJsonModule": true
+    },
+    "include": [
+        "src/**/*",
+        "test/**/*",
+        "src/**/*.json",
+        ".eslintrc.js",
+    ]
+}
