@@ -11,9 +11,14 @@ export default class Game {
     this.points[6] = [0, 0, 0, 0, 0, 0];
   }
 
-  playMove(player: number, x: number, y: number) {
-    if (x <= 6 && y <= 7 && x >= 0 && y >= 0) {
-      this.points[x][y] = player;
+  playMove(player: number, column: number) {
+    if (column >= 0 && column < 6) {
+      for (let i = 6; i >= 0; i--) {
+        if (this.points[i][column] === 0) {
+          this.points[i][column] = player;
+          return;
+        }
+      }
     }
   }
 
