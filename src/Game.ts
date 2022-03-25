@@ -52,7 +52,7 @@ export default class Game {
     // column match would be y + 1 or y - 1
     // diagonal would be (x + 1, y + 1) | (x - 1, y + 1) | (x + 1, y - 1) | (x - 1, y - 1)
 
-    return this.checkRow(player, row, column) || this.checkColumn(player, row, column);
+    return this.checkRow(player, row, column) || this.checkColumn(player, row, column) || this.checkDiagonal(player, row, column);
   }
 
   checkRow(player: number, row: number, column: number): boolean {
@@ -90,6 +90,46 @@ export default class Game {
       }
 
       if (inARow.length === this.pointsInARowWin) return true;
+    }
+
+    return false;
+  }
+
+  checkDiagonal(player: number, row: number, column: number): boolean {
+    let leftInARow = [];
+    let rightInARow = [];
+    const startIndex = row - (this.pointsInARowWin - 1);
+    const endIndex = row + (this.pointsInARowWin - 1);
+
+    let startColIndex = column - (this.pointsInARowWin - 1);
+    let endColIndex = column + (this.pointsInARowWin - 1);
+
+    for (let r = endIndex; r >= startIndex; r--) {
+      if (r >= 0 && r < this.rows) {
+        if (startColIndex >= 0 && startColIndex < this.columns) {
+          const leftPoint = this.points[r][startColIndex];
+          if (leftPoint === player) {
+            leftInARow.push(player);
+          } else {
+            leftInARow = [];
+          }
+        }
+        if (endColIndex >= 0 && endColIndex < this.columns) {
+          const rightPoint = this.points[r][endColIndex];
+          if (rightPoint === player) {
+            rightInARow.push(player);
+          } else {
+            rightInARow = [];
+          }
+        }
+      }
+
+      if (rightInARow.length === this.pointsInARowWin || leftInARow.length === this.pointsInARowWin) {
+        return true;
+      }
+
+      startColIndex++;
+      endColIndex--;
     }
 
     return false;
