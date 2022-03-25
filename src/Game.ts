@@ -48,10 +48,6 @@ export default class Game {
   }
 
   checkMoves(player: number, row: number, column: number) : boolean {
-    // row match would be x + 1 or x - 1
-    // column match would be y + 1 or y - 1
-    // diagonal would be (x + 1, y + 1) | (x - 1, y + 1) | (x + 1, y - 1) | (x - 1, y - 1)
-
     return this.checkRow(player, row, column) || this.checkColumn(player, row, column) || this.checkDiagonal(player, row, column);
   }
 
@@ -139,6 +135,6 @@ export default class Game {
     for (let i = 0; i < this.points.length; i++) {
       console.log('|', this.points[i].join(' | '), '|');
     }
-    console.log('-------------------------');
+    console.log('-------------------------\n');
   }
 }
