@@ -47,12 +47,12 @@ export default class Game {
     return { success: false, row: -1 };
   }
 
-  checkMoves(player: number, row: number, column: number) {
+  checkMoves(player: number, row: number, column: number) : boolean {
     // row match would be x + 1 or x - 1
     // column match would be y + 1 or y - 1
     // diagonal would be (x + 1, y + 1) | (x - 1, y + 1) | (x + 1, y - 1) | (x - 1, y - 1)
 
-    return this.checkRow(player, row, column);
+    return this.checkRow(player, row, column) || this.checkColumn(player, row, column);
   }
 
   checkRow(player: number, row: number, column: number): boolean {
@@ -62,6 +62,26 @@ export default class Game {
 
     for (let col = startIndex; col <= endIndex; col++) {
       const currentPoint = this.points[row][col];
+
+      if (currentPoint === player) {
+        inARow.push(player);
+      } else {
+        inARow = [];
+      }
+
+      if (inARow.length === this.pointsInARowWin) return true;
+    }
+
+    return false;
+  }
+
+  checkColumn(player: number, row: number, column: number): boolean {
+    let inARow = [];
+    const startIndex = row - this.pointsInARowWin < 0 ? 0 : row - this.pointsInARowWin;
+    const endIndex = row + this.pointsInARowWin >= this.rows ? this.rows - 1 : row + this.pointsInARowWin;
+
+    for (let r = startIndex; r <= endIndex; r++) {
+      const currentPoint = this.points[r][column];
 
       if (currentPoint === player) {
         inARow.push(player);

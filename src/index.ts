@@ -7,12 +7,13 @@ const newGame = new Game(2, 7, 6, 4);
 newGame.printGrid();
 
 newGame.playMove(1, 0);
-newGame.playMove(1, 2);
-
-newGame.playMove(1, 4);
-newGame.playMove(1, 5);
-
-newGame.playMove(1, 3);
+newGame.playMove(1, 0);
+newGame.playMove(1, 0);
+newGame.playMove(2, 0);
+newGame.playMove(1, 0);
+newGame.playMove(1, 0);
+newGame.playMove(1, 0);
+newGame.playMove(1, 0);
 
 // console.log('new move');
 // newGame.printGrid();
