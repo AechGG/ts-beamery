@@ -1,39 +1,91 @@
-import Game from './Game';
+// TODO: create a terminal for playing a connect 4 game
+import chalk from 'chalk';
+import figlet from 'figlet';
+import inquirer from 'inquirer';
+import GameController from './GameController';
 
-console.log('hello world');
+const init = () => {
+  console.log(
+    chalk.green(
+      figlet.textSync('Connect 4', {
+        horizontalLayout: 'default',
+        verticalLayout: 'default',
+      }),
+    ),
+  );
+};
 
-const newGame = new Game(2, 7, 6, 4);
+const startQuestions = () => {
+  const questions = [
+    {
+      name: 'START_GAME',
+      type: 'list',
+      message: 'Start a new game?',
+      choices: ['Y', 'N'],
+    },
+  ];
+  return inquirer.prompt(questions);
+};
 
-//   0   1   2   3   4   5            Cols = 6
-// | 0 | 0 | 0 | 0 | 0 | 0 |  0                                   check = row: 0, col : 5
-// | 0 | 0 | 0 | 0 | 0 | 0 |  1       check = row: 1, col : 0     check = row: 1, col : 4
-// | 0 | 0 | 0 | 0 | 0 | 0 |  2       check = row: 2, col : 1     check = row: 2, col : 3
-// | 0 | 0 | 1 | 0 | 0 | 0 |  3       check = row: 3, col : 2     check = row: 3, col : 2
-// | 0 | 0 | 2 | 1 | 0 | 0 |  4       check = row: 4, col : 3     check = row: 4, col : 1
-// | 0 | 0 | 2 | 2 | 1 | 0 |  5       check = row: 5, col : 4     check = row: 5, col : 0
-// | 0 | 0 | 2 | 1 | 2 | 1 |  6       check = row: 6, col : 5
-//                            Row = 7
-newGame.printGrid();
+const validateNumbers = (moreValidationChecks, clearNumberValue: number) => ({
+  validate: (input) => {
+    if (input === '') {
+      return 'Please provide a valid number greater then 0';
+    }
+    return moreValidationChecks ? moreValidationChecks(input) : true;
+  },
+  filter: (input) => (Number.isNaN(input) || Number(input) <= clearNumberValue ? '' : Number(input)),
+});
 
-newGame.playMove(1, 5);
-newGame.playMove(2, 4);
+const setupQuestions = () => {
+  const questions = [
+    {
+      name: 'GRID',
+      type: 'list',
+      message: 'Size of the grid?',
+      choices: ['6x7', '7x8', '8x9'],
+      filter: (val: string) => val.split('x').map((val2: string) => Number.parseInt(val2, 10)),
+    },
+    {
+      name: 'ROW_COUNT',
+      type: 'number',
+      message: 'Points in a row to win',
+      ...validateNumbers((input) => {
+        if (Number(input) <= 1) {
+          return 'Must be greater than one';
+        }
+        return true;
+      }, 1),
+    },
+    {
+      name: 'PLAYERS',
+      type: 'number',
+      message: 'Number of players?',
+      ...validateNumbers((input) => {
+        if (Number(input) <= 1) {
+          return 'Must be greater than one';
+        }
+        return true;
+      }, 1),
+    },
+  ];
+  return inquirer.prompt(questions);
+};
 
-newGame.playMove(1, 4);
-newGame.playMove(2, 3);
+const gameController = new GameController();
 
-newGame.playMove(1, 2);
-newGame.playMove(2, 3);
+const run = async () => {
+  // show script introduction
+  init();
+  // ask questions
+  const answers = await startQuestions();
+  const { START_GAME } = answers;
 
-newGame.playMove(1, 3);
-newGame.playMove(2, 2);
+  if (START_GAME === 'Y') {
+    console.log('Start Game');
+    const { GRID, ROW_COUNT, PLAYERS } = await setupQuestions();
+    await gameController.playGame(PLAYERS, GRID[1], GRID[0], ROW_COUNT);
+  }
+};
 
-newGame.playMove(2, 2);
-newGame.playMove(1, 2);
-
-newGame.checkDiagonal(1, 3, 2);
-// console.log('new move');
-// newGame.printGrid();
-
-// newGame.checkMoves(1);
-
-// TODO: create a microservice for playing a connect 4 game
+run();

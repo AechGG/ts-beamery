@@ -9,6 +9,8 @@ export default class Game {
 
   pointsInARowWin: number;
 
+  private currentPlayer = 1;
+
   constructor(players: number, rows: number, columns: number, pointsInARowWin: number) {
     this.players = players;
     this.rows = rows;
@@ -22,17 +24,18 @@ export default class Game {
     }
   }
 
-  playMove(player: number, column: number) {
+  playMove(player: number, column: number): boolean {
     const { success, row } = this.plotMove(player, column);
 
     if (success) {
-      this.printGrid();
-      if (this.checkMoves(player, row, column)) {
-        console.log(`Player ${player} WINS`);
-      } else {
-        console.log('\nNext player turn\n');
-      }
+      this.currentPlayer = this.currentPlayer + 1 > this.players ? 1 : this.currentPlayer + 1;
+      return this.checkMoves(player, row, column);
     }
+    return false;
+  }
+
+  currentPlayerTurn(): number {
+    return this.currentPlayer;
   }
 
   private plotMove(player: number, column: number): { success: boolean; row: number } {
