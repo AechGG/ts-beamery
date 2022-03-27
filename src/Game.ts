@@ -9,6 +9,15 @@ export default class Game {
 
   pointsInARowWin: number;
 
+  private currentPlayer = 1;
+
+  /**
+   * A class to handle game functions
+   * @param players number of players in the game
+   * @param rows number of rows on the board
+   * @param columns number of columns on the board
+   * @param pointsInARowWin number of points in a row for a player to win
+   */
   constructor(players: number, rows: number, columns: number, pointsInARowWin: number) {
     this.players = players;
     this.rows = rows;
@@ -22,17 +31,24 @@ export default class Game {
     }
   }
 
-  playMove(player: number, column: number) {
+  /**
+   * Play a move and check if the player has won
+   * @param player Player number
+   * @param column Select column to play move
+   * @returns boolean: is player has won or not
+   */
+  playMove(player: number, column: number): boolean {
     const { success, row } = this.plotMove(player, column);
 
     if (success) {
-      this.printGrid();
-      if (this.checkMoves(player, row, column)) {
-        console.log(`Player ${player} WINS`);
-      } else {
-        console.log('\nNext player turn\n');
-      }
+      this.currentPlayer = this.currentPlayer + 1 > this.players ? 1 : this.currentPlayer + 1;
+      return this.checkMoves(player, row, column);
     }
+    return false;
+  }
+
+  currentPlayerTurn(): number {
+    return this.currentPlayer;
   }
 
   private plotMove(player: number, column: number): { success: boolean; row: number } {
@@ -131,10 +147,12 @@ export default class Game {
     return false;
   }
 
-  printGrid() {
+  printGrid(): string {
+    let grid = '\n';
     for (let i = 0; i < this.points.length; i++) {
-      console.log('|', this.points[i].join(' | '), '|');
+      grid += `| ${this.points[i].join(' | ')} |\n`;
     }
-    console.log('-------------------------\n');
+    grid += `-${'----'.repeat(this.columns)}`;
+    return grid;
   }
 }
