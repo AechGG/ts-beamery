@@ -11,6 +11,13 @@ export default class Game {
 
   private currentPlayer = 1;
 
+  /**
+   * A class to handle game functions
+   * @param players number of players in the game
+   * @param rows number of rows on the board
+   * @param columns number of columns on the board
+   * @param pointsInARowWin number of points in a row for a player to win
+   */
   constructor(players: number, rows: number, columns: number, pointsInARowWin: number) {
     this.players = players;
     this.rows = rows;
@@ -24,6 +31,12 @@ export default class Game {
     }
   }
 
+  /**
+   * Play a move and check if the player has won
+   * @param player Player number
+   * @param column Select column to play move
+   * @returns boolean: is player has won or not
+   */
   playMove(player: number, column: number): boolean {
     const { success, row } = this.plotMove(player, column);
 

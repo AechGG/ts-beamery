@@ -36,6 +36,13 @@ export default class GameController {
     return inquirer.prompt(questions);
   }
 
+  /**
+   * A simple function to run a game
+   * @param players number of players in the game
+   * @param rows number of rows on the board
+   * @param columns number of columns on the board
+   * @param pointsInARowWin number of points in a row for a player to win
+   */
   async playGame(players: number, rows: number, columns: number, pointsInARowWin: number) {
     const newGame = new Game(players, rows, columns, pointsInARowWin);
     while (true) {
