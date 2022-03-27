@@ -1,5 +1,17 @@
-# ts-basic
-Basic TypeScript implementation
+# ts-beamery
+Beamery Task TypeScript implementation
+
+## Still left to do
+- Switch to storing only user points instead of whole grid array
+  - Use Player Point class for checking wins
+  - Could use a Graph data structure
+- Add tests for all classes
+- Cache checks before checking whole grid again for winner
+- Better cli for the game
+- Create microservice/REST endpoints to play the game with postman
+- Host service
+- Create lobbies with joinable games
+- Integrate redis caching service
 
 ## Using node on local machine
 
