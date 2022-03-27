@@ -12,7 +12,8 @@ npm install
 Run the app:
 
 ```
-npm run dev
+npm run build
+npm run serve
 ```
 
 ## Using Docker
