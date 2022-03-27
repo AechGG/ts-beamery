@@ -134,10 +134,12 @@ export default class Game {
     return false;
   }
 
-  printGrid() {
+  printGrid(): string {
+    let grid = '\n';
     for (let i = 0; i < this.points.length; i++) {
-      console.log('|', this.points[i].join(' | '), '|');
+      grid += `| ${this.points[i].join(' | ')} |\n`;
     }
-    console.log('-------------------------\n');
+    grid += `-${'----'.repeat(this.columns)}`;
+    return grid;
   }
 }

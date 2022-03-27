@@ -39,13 +39,13 @@ export default class GameController {
   async playGame(players: number, rows: number, columns: number, pointsInARowWin: number) {
     const newGame = new Game(players, rows, columns, pointsInARowWin);
     while (true) {
-      newGame.printGrid();
+      console.log(chalk.blue(newGame.printGrid()));
       const currentPlayer = newGame.currentPlayerTurn();
       console.log(chalk.green(`Players ${currentPlayer} turn`));
       // eslint-disable-next-line no-await-in-loop
       const { SELECTED_COLUMN } = await this.gameQuestions(columns);
       if (newGame.playMove(currentPlayer, SELECTED_COLUMN - 1)) {
-        newGame.printGrid();
+        console.log(chalk.blue(newGame.printGrid()));
         console.log(
           chalk.green(
             figlet.textSync(`Player ${currentPlayer} WINS`, {
